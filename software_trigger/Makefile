@@ -18,4 +18,4 @@ l2_trigger_software: l2_trigger_software.cpp
 	$(CXX) $(CFLAGS) l2_trigger_software.cpp -o l2_trigger 
 
 clean:
-	rm -f *.o *.dat *~ $(TESTS)
+	rm -f *.o *.dat *.dSYM *~ $(TESTS)

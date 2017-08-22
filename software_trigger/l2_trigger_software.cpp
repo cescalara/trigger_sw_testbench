@@ -121,7 +121,7 @@ int l2_trigger(char * FILE_NAME, std::ifstream& in_stream, std::ofstream& out_st
       
       out_stream << sum_pix[i] << ' ';
       
-      sum_pixP = P*(sum_pix[i]/N_ADDS);
+      sum_pixP = (P*sum_pix[i])/N_ADDS;
       //thresh[i] = sum_pixP + (N_SIGMA*sqrt(sum_pixP));
       thresh[i] = N*sum_pixP;
       //std::cout << thresh[i] << std::endl;

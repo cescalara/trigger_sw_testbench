@@ -11,11 +11,10 @@
 #define N_ADDS 128
 #define N_PIXELS 2304
 #define P 8
-#define N_SIGMA 12
-#define N 4
+#define N_SIGMA 8
+#define N 1.3
 #define LOW_THRESH 0
 
-//#define FILE_NAME "MixEBG_14L2"
 #define FILE_PATH "../data/"
 
 #endif
