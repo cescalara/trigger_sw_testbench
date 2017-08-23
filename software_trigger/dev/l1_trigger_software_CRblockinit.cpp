@@ -38,11 +38,11 @@ int l1_trigger(char * FILE_NAME, std::ifstream& in_stream, std::ofstream& out_st
   std::ofstream trig_file(trig_file_name, std::ios::out);
 
   //k, kk and kj for GTU index, i for pixel index
-  int i, k, kk, itrig;
+  int i, k, kk, kj, itrig;
   int pkt_num = 0; 
   uint32_t sum_pixP;
-  uint32_t sum_overP[N_PIXELS];
-  uint32_t sum_pix[N_PIXELS], data_shift[P][N_PIXELS], thresh[N_PIXELS];
+  uint32_t sum_overP[N_PIXELS], sum_overN_PERS[N_PIXELS];
+  uint32_t sum_pix[N_PIXELS], data_shift[P][N_PIXELS], signal_pers[N_PERS][N_PIXELS], thresh[N_PIXELS];
   
   //Initialisation
   trig_data = 0;
@@ -97,26 +97,41 @@ int l1_trigger(char * FILE_NAME, std::ifstream& in_stream, std::ofstream& out_st
 	
 	data_shift[0][i] = l1_data[i];
 	sum_overP[i] += data_shift[0][i];
-	
-	//If rise is instantaneous, block for rest of 128 GTU (CR block)
-	if ((l1_data[i] - data_shift[1][i]) > RISE_THRESH) {
-	  itrig = 1;
-	}
 
+	//Store the average for N_PERS GTU
+	//	sum_overN_PERS[i] = 0;
+	//for (kj = N_PERS - 2; kj >= 0; kj--) {
+	//  signal_pers[kj+1][i] = signal_pers[kj][i];
+	//  sum_overN_PERS[i] += signal_pers[kj + 1][i];
+	//    }
+	//signal_pers[0][i] = sum_overP[i];
+	//sum_overN_PERS[i] += signal_pers[0][i];
+
+	//Store the previous GTU values difference
+	signal_diff[1][i] = signal_diff[0][i]
+	signal_diff[0][i] = sum_over_P
+	
 	//Trigger decision
-	//If moving average is above threshold
+	//
        	if(sum_overP[i] > thresh[i]) {
+	  //Moving average over 3 GTU > threshold
+	  //	if (sum_overN_PERS[i] > (thresh[i] * N_PERS)
+	  // && sum_overP[i] < MAX_THRESH) {
+
+	  //If rise is not instantaneous
+	  if ((l1_data[i] - data_shift[1][i]) < RISE_THRESH) {
 	  
-	  //No previous trigger in this packet of 128 GTU
-	  if(itrig == 0) {
-	    //Pulse trigger wire for 1 clock (only for hardware implementation)
-	    trig_data = 0x00000001;
-	    trig_data = 0x00000000;
-	    //Write to the .tr1 file
-	    trig_file << k << ' ' << pkt_num << ' ' << i << std::endl;
-	    itrig = 1;
-	    trig_count++;
-	  } 
+	    //No previous trigger in this packet of 128 GTU
+	    if(itrig == 0) {
+	      //Pulse trigger wire for 1 clock (only for hardware implementation)
+	      trig_data = 0x00000001;
+	      trig_data = 0x00000000;
+	      //Write to the .tr1 file
+	      trig_file << k << ' ' << pkt_num << ' ' << i << std::endl;
+	      itrig = 1;
+	      trig_count++;
+	    } 
+	  }
 	}
       }
     }

@@ -16,7 +16,8 @@
 #define LOW_THRESH 0
 
 //For the suppresion of direct CRs
-#define RISE_THRESH 7
+#define MAX_THRESH 100
+#define N_PERS 3
 
 #define FILE_PATH "../data/"
 
