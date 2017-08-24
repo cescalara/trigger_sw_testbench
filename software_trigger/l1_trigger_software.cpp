@@ -99,7 +99,18 @@ int l1_trigger(char * FILE_NAME, std::ifstream& in_stream, std::ofstream& out_st
 	sum_overP[i] += data_shift[0][i];
 	
 	//If rise is instantaneous, block for rest of 128 GTU (CR block)
-	if ((l1_data[i] - data_shift[1][i]) > RISE_THRESH) {
+	uint32_t check = 0; 
+	
+	//Ignore negative check values
+	if (l1_data[i] < data_shift[1][i]) {
+	  check = 0;
+	}
+	else {
+	  check = (l1_data[i] - data_shift[1][i]);
+	}
+
+	//DH Block
+	if (check > RISE_THRESH) {
 	  itrig = 1;
 	}
 
@@ -113,7 +124,8 @@ int l1_trigger(char * FILE_NAME, std::ifstream& in_stream, std::ofstream& out_st
 	    trig_data = 0x00000001;
 	    trig_data = 0x00000000;
 	    //Write to the .tr1 file
-	    trig_file << k << ' ' << pkt_num << ' ' << i << ' ' << l1_data[i] << std::endl;
+	    trig_file << k << ' ' << pkt_num << ' ' << i << ' '
+		      << l1_data[i] << ' ' << l1_data[i-1] << ' '<< l1_data[i+1] << std::endl;
 	    itrig = 1;
 	    trig_count++;
 	  } 
