@@ -113,7 +113,7 @@ int l1_trigger(char * FILE_NAME, std::ifstream& in_stream, std::ofstream& out_st
 	    trig_data = 0x00000001;
 	    trig_data = 0x00000000;
 	    //Write to the .tr1 file
-	    trig_file << k << ' ' << pkt_num << ' ' << i << std::endl;
+	    trig_file << k << ' ' << pkt_num << ' ' << i << ' ' << l1_data[i] << std::endl;
 	    itrig = 1;
 	    trig_count++;
 	  } 
