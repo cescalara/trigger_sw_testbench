@@ -36,5 +36,7 @@
 ehthumbs.db
 Thumbs.db
 
+software_trigger/exmaples/.ipynb_checkpoints/*
+software_trigger/bin/*
+software_trigger/work/*
 data/*
-software_trigger/.ipynb_checkpoints/*
