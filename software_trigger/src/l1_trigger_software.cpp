@@ -74,15 +74,22 @@ int l1_trigger(char * FILE_NAME, std::ifstream& in_stream, std::ofstream& out_st
         
       //Loop over 1 packet
       for(i = 0; i < n_pixels_in_bus; i++) {
-	
-	//Read in the data, ignoring the GTU number labels
-	if (i == 0 || i % 2305 == 0) {
-	  in_stream >> skip_data[i];
-	  in_stream >> l1_data[i];
+
+	if (!in_stream.eof()) {
+
+	  //Read in the data, ignoring the GTU number labels
+	  if (i == 0 || i % 2305 == 0) {
+	    in_stream >> skip_data[i];
+	    in_stream >> l1_data[i];
+	  }
+	  else {
+	    in_stream >> l1_data[i];
+	  }
 	}
 	else {
-	  in_stream >> l1_data[i];
+	  l1_data[i] = 0;
 	}
+	
 	//std::cout << l1_data[i] << ' '; 
  
 	//Make sum
