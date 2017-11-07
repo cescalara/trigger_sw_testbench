@@ -74,13 +74,19 @@ int l2_trigger(char * FILE_NAME, std::ifstream& in_stream, std::ofstream& out_st
       //Loop over 1 packet
       for(i = 0; i < n_pixels_in_bus; i++) {
 	
-	//Read in the data
-	if (i == 0 || i % 2305 == 0) {
-	  in_stream >> skip_data[i];
-	  in_stream >> l2_data[i];
+	if (!in_stream.eof()) {
+	
+	  //Read in the data
+	  if (i == 0 || i % 2305 == 0) {
+	    in_stream >> skip_data[i];
+	    in_stream >> l2_data[i];
+	  }
+	  else {
+	    in_stream >> l2_data[i];
+	  }
 	}
 	else {
-	  in_stream >> l2_data[i];
+	  l2_data[i] = 0;
 	}
 	//	std::cout << l2_data[i] << ' '; 
  
