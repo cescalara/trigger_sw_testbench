@@ -12,7 +12,7 @@
 #define N_PIXELS 2304
 #define P 8
 #define N_SIGMA 8
-#define N 4
+#define N 1.5
 #define LOW_THRESH 0
 
 #define FILE_PATH "../../data/"
