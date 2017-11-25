@@ -122,12 +122,15 @@ int l2_trigger(char * FILE_NAME, std::ifstream& in_stream, std::ofstream& out_st
       }
     }
     
-    
     //Write to the output stream and set the threshold
+    out_stream << "  " << pkt_num << std::endl;    
     for(i = 0; i < n_pixels_in_bus; i++) {
       
-      out_stream << sum_pix[i] << ' ';
-      
+      if(i != 0 and i%48 == 0) {
+	out_stream << std::endl;
+      }
+      out_stream << sum_pix[i] << "   ";
+     
       sum_pixP = (P*sum_pix[i])/N_ADDS;
       //thresh[i] = sum_pixP + (N_SIGMA*sqrt(sum_pixP));
       thresh[i] = N*sum_pixP;
